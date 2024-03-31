@@ -13,10 +13,8 @@ namespace PlaywrightCore;
 [SetUpFixture]
 public class GlobalTestSetup
 {
-    
-
     [OneTimeSetUp]
-    public async Task InitializeEnvironment()
+    public void InitializeEnvironment()
     {
         //string env = Environment.GetEnvironmentVariable("NHA_ENV");
         
@@ -26,10 +24,4 @@ public class GlobalTestSetup
             .Load();
 
     }
-}
-
-[TestFixture]
-public class GlobalSetup
-{
-
 }
