@@ -9,20 +9,16 @@ namespace PlaywrightCore.Helpers
 {
     public static class Navigation
     {
-        public static string siteEnv => TestConfig.GetVarFor<string>("NHA_ENV", "prod");
-        public static string _baseUrl => TestConfig.NHA_Social_Url.SetBaseUrl(siteEnv);
-
 
         /// <summary>
-        /// 
+        /// Logs the user into NHA Social. Uses the supplied user and password
         /// </summary>
         /// <param name="page"></param>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
+        /// <param name="username">Email address of the user you want to log in with</param>
+        /// <param name="password">User password</param>
         /// <returns></returns>
         public static async Task<IPage> LoginAsync(this IPage page, string username, string password)
         {
-            await page.GotoAsync(_baseUrl);
             await page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
             await page.GetByLabel("Email").FillAsync(username);
             await page.GetByLabel("Password").FillAsync(password);
@@ -30,5 +26,50 @@ namespace PlaywrightCore.Helpers
 
             return page;
         }
+
+        /// <summary>
+        /// Navigates user to NHA home page
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static async Task<IPage> GoToHomeAsync(this IPage page)
+        {
+            await page.GetByRole(AriaRole.Link, new() { Name = "Home" }).ClickAsync();
+            return page;
+        }
+
+        /// <summary>
+        /// Navigates user to NHA Anime
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static async Task<IPage> GoToAnimeAsync(this IPage page)
+        {
+            await page.GetByRole(AriaRole.Link, new() { Name = "Anime Wiki" }).ClickAsync();
+            return page;
+        }
+
+        /// <summary>
+        /// Navigates user to NHA Forums
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static async Task<IPage> GoToForumsAsync(this IPage page)
+        {
+            await page.GetByRole(AriaRole.Link, new() { Name = "Forums" }).ClickAsync();
+            return page;
+        }
+
+        /// <summary>
+        /// Navigates user to NHA Crypto
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public static async Task<IPage> GoToCryptoAsync(this IPage page)
+        {
+            await page.GetByRole(AriaRole.Link, new() { Name = "Crypto Stats" }).ClickAsync();
+            return page;
+        }
+
     }
 }

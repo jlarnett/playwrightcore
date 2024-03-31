@@ -5,18 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using PlaywrightCore.NHA_Social.Configuration;
 
 namespace PlaywrightCore.Abstract
 {
-    public class NHAPageTest : PageTest
+    public class NhaPageTest : PageTest
     {
-        public string siteEnv => TestConfig.GetVarFor<string>("NHA_ENV", "prod");
+        public string siteEnv => TestConfig.GetVarFor<string>("NHA_ENV", "prod")!;
+        public string baseUrl;
 
 
-        public async Task<IBrowserContext> LoadLoggedInBrowserAsync()
+        /// <summary>
+        /// initializes baseUrl for all classes that derive from NhaPageTest
+        /// </summary>
+        [OneTimeSetUp]
+        public void Setup()
         {
-            var browser = await Browser.NewContextAsync(new() { StorageStatePath = "loggedInState.json" });
-            return browser;
+            baseUrl = TestConfig.NHA_Social_Url.SetBaseUrl(siteEnv);
+        }
+
+        [SetUp]
+        public async Task ClassSetup()
+        {
+            await Page.GotoAsync(baseUrl);
         }
     }
 }
